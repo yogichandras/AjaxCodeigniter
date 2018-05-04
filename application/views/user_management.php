@@ -66,7 +66,10 @@
                             <div class="card-body">
                                 <h4 class="card-title">User Management</h4>
                                 <h6 class="card-subtitle">Super Admin & Admin</h6>
-                                <button class="btn btn-success" data-toggle="modal" data-target="#myModalAdd" style="margin-bottom:12px;">Add New</button>
+                                <?php if($status == "super_admin"){
+ echo "<button class='btn btn-success' data-toggle='modal' data-target='#myModalAdd' style='margin-bottom:12px;'>Add New</button>";
+                                } ?>
+                               
     
                                 <table class="table table-striped" id="mytable">
       <thead>
@@ -82,16 +85,17 @@
 <!-- Button trigger modal -->
 
         <!-- Modal Add Produk-->
-        <form id="add-row-form" action="<?php echo base_url().'index.php/Dashboard/simpan'?>" method="post">
+       
          <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                <div class="modal-content">
                    <div class="modal-header">
                       
-                       <h4 class="modal-title" id="myModalLabel">Add New</h4>
+                       <h4 class="modal-title" id="myModalLabel">Add New User</h4>
                    </div>
+                   <form id="add-row-form" action="<?php echo base_url().'index.php/Dashboard/simpan'?>" method="post">
                    <div class="modal-body">
-        
+                
                                          <div class="form-group">
                            <input type="text" name="username" class="form-control" placeholder="Username" required>
                        </div>
@@ -111,22 +115,24 @@
                    </div>
                    <div class="modal-footer">
                         
-                        <button type="submit" id="add-row" class="btn btn-success">Save</button>
+                   <a id="remove-modal" class="btn btn-default" onclick="close()">Close</a> <button type="submit" id="add-row" class="btn btn-success">Save</button>
+                   </form>
                    </div>
                     </div>
             </div>
          </div>
-     </form>
+
  
      <!-- Modal Update Produk-->
-      <form id="add-row-form" action="<?php echo base_url().'index.php/Dashboard/update'?>" method="post">
+     
          <div class="modal fade" id="ModalUpdate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                <div class="modal-content">
                    <div class="modal-header">
                         
-                       <h4 class="modal-title" id="myModalLabel">Update Produk</h4>
+                       <h4 class="modal-title" id="myModalLabel">Update User</h4>
                    </div>
+                   <form id="add-row-form" action="<?php echo base_url().'index.php/Dashboard/update'?>" method="post">
                    <div class="modal-body">
                        <div class="form-group">
                            <input type="hidden" name="id" class="form-control" >
@@ -146,36 +152,39 @@
                                                  </select>
                        </div>
                    </div>
+                   </form>
                    <div class="modal-footer">
                        
-                        <button type="submit" id="add-row" class="btn btn-success">Update</button>
+                   <a id="remove-modal2" class="btn btn-default" onclick="close()">Close</a>   <button type="submit" id="add-row" class="btn btn-success">Update</button>
                    </div>
                     </div>
             </div>
          </div>
-     </form>
+     
  
      <!-- Modal Hapus Produk-->
-      <form id="add-row-form" action="<?php echo base_url().'index.php/Dashboard/delete'?>" method="post">
+    
          <div class="modal fade" id="ModalHapus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                <div class="modal-content">
                    <div class="modal-header">
                       
-                       <h4 class="modal-title" id="myModalLabel">Hapus Produk</h4>
+                       <h4 class="modal-title" id="myModalLabel">Hapus User</h4>
                    </div>
+                   <form id="add-row-form" action="<?php echo base_url().'index.php/Dashboard/delete'?>" method="post">
                    <div class="modal-body">
                            <input type="hidden" name="id" class="form-control" required>
                                                  <strong>Anda yakin mau menghapus record ini?</strong>
                    </div>
+                   </form>
                    <div class="modal-footer">
                      
-                        <button type="submit" id="add-row" class="btn btn-success">Hapus</button>
+                   <a id="remove-modal3" class="btn btn-default" onclick="close()">Close</a>     <button type="submit" id="add-row" class="btn btn-success">Hapus</button>
                    </div>
                     </div>
             </div>
          </div>
-     </form>
+ 
                             </div>
                         </div>
                       
@@ -197,9 +206,8 @@
     <!-- End Wrapper -->
     <!-- All Jquery -->
     <script
-  src="https://code.jquery.com/jquery-3.3.1.js"
-  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-  crossorigin="anonymous"></script>
+  src="https://code.jquery.com/jquery-1.12.4.js"
+  ></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="<?php echo base_url()."asset/js/lib/bootstrap/js/popper.min.js" ?>"></script>
     <script src="<?php echo base_url()."asset/js/lib/bootstrap/js/bootstrap.min.js" ?>"></script>
@@ -211,10 +219,8 @@
     <script src="<?php echo base_url()."asset/js/lib/sticky-kit-master/dist/sticky-kit.min.js" ?>"></script>
     <!--Custom JavaScript -->
 
-
-  <script src="<?php echo base_url()."asset/js/lib/datatables/datatables.min.js" ?>"></script>
   <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script src="<?php echo base_url()."asset/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js" ?>"></script>
+   
     <script src="<?php echo base_url()."asset/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js" ?>"></script>
    <script type="text/javascript">
      $(document).ready(function(){
@@ -265,9 +271,20 @@
  
       });
 
+$('#remove-modal').on('click',function(){
+    location.reload();
+});
 
-   $('#anjing').on('click',function(){
-    $('#exampleModal').modal('hide');
+$('#remove-modal2').on('click',function(){
+    location.reload();
+});
+
+$('#remove-modal3').on('click',function(){
+    location.reload();
+});
+
+   $('#remove-row').on('click',function(){
+    $('#myModalAdd').modal('hide');
       });
             // end setup datatables
             // get Edit Records

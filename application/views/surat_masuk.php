@@ -85,42 +85,50 @@
     </table>    
 <!-- Button trigger modal -->
 
-        <!-- Modal Add Produk-->
-        <form id="add-row-form" action="<?php echo base_url().'index.php/Dashboard/simpan'?>" method="post">
          <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                <div class="modal-content">
                    <div class="modal-header">
                       
-                       <h4 class="modal-title" id="myModalLabel">Add New</h4>
+                       <h4 class="modal-title" id="myModalLabel">Add New Surat Masuk</h4>
                    </div>
+                   <form id="add-row-form" action="<?php echo base_url().'index.php/Dashboard/simpan_surat_masuk'?>" method="post">
                    <div class="modal-body">
-        
-                                         <div class="form-group">
-                           <input type="text" name="username" class="form-control" placeholder="Username" required>
+                 <div class="form-group">
+                 <label class="control-label">Tanggal Keluar</label>
+                           <input type="date" name="tanggal_keluar" class="form-control"required>
                        </div>
                        <div class="form-group">
-                           <input type="password" name="password" class="form-control" placeholder="Password" required>
+                           <input type="text" name="perihal" class="form-control" placeholder="Perihal" required>
                        </div>
-                                         <div class="form-group">
-                           <select name="status" class="form-control" placeholder="Status" required>
-                                                      
-                                                            <option value="admin">Admin</option>
-                                                            <option value="super_admin">Super Admin</option>
-                                                
-                                                 </select>
+                  
+                       <div class="form-group">
+                           <input type="text" name="lampiran" class="form-control" placeholder="Lampiran" required>
+                       </div>
+
+                        <div class="form-group">
+                           <input type="text" name="tujuan" class="form-control" placeholder="Tujuan" required>
+                       </div>
+
+                        <div class="form-group">
+                           <input type="text" name="dari" class="form-control" placeholder="Dari" required>
+                       </div>
+
+                        <div class="form-group">
+                           <input type="text" name="content" class="form-control" placeholder="Content" required>
                        </div>
                                          
  
                    </div>
                    <div class="modal-footer">
                         
-                        <button type="submit" id="add-row" class="btn btn-success">Save</button>
+                   <a id="remove-modal" class="btn btn-default" onclick="close()">Close</a> <button type="submit" id="add-row" class="btn btn-success">Save</button>
+                   </form>
                    </div>
                     </div>
             </div>
          </div>
-     </form>
+
  
      <!-- Modal Update Produk-->
       <form id="add-row-form" action="<?php echo base_url().'index.php/Dashboard/update'?>" method="post">
@@ -166,7 +174,7 @@
                <div class="modal-content">
                    <div class="modal-header">
                       
-                       <h4 class="modal-title" id="myModalLabel">Hapus Produk</h4>
+                       <h4 class="modal-title" id="myModalLabel">Hapus Surat</h4>
                    </div>
                    <div class="modal-body">
                            <input type="hidden" name="id" class="form-control" required>
@@ -260,7 +268,8 @@
                         {"data": "lampiran"},
                         {"data": "tujuan"},
                         {"data": "dari"},
-                        {"data": "content"}
+                        {"data": "content"},
+                        {"data": "view"}
                   ],
                 order: [[1, 'asc']],
           rowCallback: function(row, data, iDisplayIndex) {
@@ -272,22 +281,41 @@
  
       });
 
+      $('#remove-modal').on('click',function(){
+    location.reload();
+});
 
-   $('#anjing').on('click',function(){
-    $('#exampleModal').modal('hide');
+$('#remove-modal2').on('click',function(){
+    location.reload();
+});
+
+$('#remove-modal3').on('click',function(){
+    location.reload();
+});
+
+   $('#remove-row').on('click',function(){
+    $('#myModalAdd').modal('hide');
       });
-            // end setup datatables
+      // end setup datatables
             // get Edit Records
             $('#mytable').on('click','.edit_record',function(){
             var id=$(this).data('id');
-                        var username=$(this).data('username');
-                        var password=$(this).data('password');
-                        var status=$(this).data('status');
+                        var tanggal_masuk=$(this).data('tanggal_masuk');
+                        var tanggal_keluar=$(this).data('tanggal_keluar');
+                        var perihal=$(this).data('perihal');
+                        var lampiran=$(this).data('lampiran');
+                        var tujuan=$(this).data('tujuan');
+                        var dari=$(this).data('dari');
+                        var content=$(this).data('content');
             $('#ModalUpdate').modal('show');
             $('[name="id"]').val(id);
-                        $('[name="username"]').val(username);
-                        $('[name="password"]').val(password);
-                        $('[name="status"]').val(status);
+                        $('[name="tanggal_masuk"]').val(tanggal_masuk);
+                        $('[name="tanggal_keluar"]').val(tanggal_keluar);
+                        $('[name="perihal"]').val(perihal);
+                        $('[name="lampiran"]').val(lampiran);
+                        $('[name="tujuan"]').val(tujuan);
+                        $('[name="dari"]').val(dari);
+                        $('[name="content"]').val(content);
       });
             // End Edit Records
             // get Hapus Records

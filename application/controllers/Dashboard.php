@@ -51,8 +51,24 @@ public function user(){
 
 
 public function ajax_user(){
-    header('Content-Type: application/json');
-    echo $this->Mymodel->get_all_user();
+    $username = $this->session->userdata('username');
+    $data = $this->Mymodel->GetUser("where username = '$username'");
+    $data2 = array(
+        "username" => $data[0]['username'],
+        "status" => $data[0]['status']
+    );
+
+    if($data2['status'] == "super_admin"){
+        header('Content-Type: application/json');
+        echo $this->Mymodel->get_all_user();
+    }
+    else{
+        header('Content-Type: application/json');
+        echo $this->Mymodel->get_all_admin_user();
+    }
+   
+  
+
 }
 
 public function ajax_surat_masuk(){
@@ -72,14 +88,71 @@ function simpan(){ //function simpan data
   }
 
   function simpan_surat_masuk(){ //function simpan data
-    $password = $this->input->post('password');
+
+    $where = array(
+        'no_surat' => "SRT-2018-0001"
+     );
+
+     $query = $this->Mymodel->cek_login("surat_masuk",$where)->num_rows();
+                        //cek dulu apakah ada sudah ada kode di tabel.    
+     if($query <> 0){      
+      //jika kode ternyata sudah ada.      
+      $data = $query;      
+      $kode = $data + 1;    
+     }
+     else {      
+      //jika kode belum ada      
+     $kode = 1;    
+     }
+     
+     $kodemax = str_pad($kode, 4, "0", STR_PAD_LEFT); // angka 4 menunjukkan jumlah digit angka 0
+     $kodejadi = "SRT-2018-".$kodemax;    // hasilnya ODJ-9921-0001 dst.
+
+    $tgl_masuk = date('Y-m-d H:i:s');
+    $tgl_keluar = $this->input->post('tanggal_keluar');
+    $perihal = $this->input->post('perihal');
+    $lampiran = $this->input->post('lampiran');
+    $tujuan = $this->input->post('tujuan');
+    $dari = $this->input->post('dari');
+    $content = $this->input->post('content');
+    
     $data= array(
-      'tanggal_masuk'     => $this->input->post('username'),
-      'password'    => md5($password),
-      'status' => $this->input->post('status')
+    'no_surat' => $kodejadi,
+    'tanggal_masuk' => $tgl_masuk,
+    'tanggal_keluar' => $tgl_keluar,
+    'perihal' => $perihal,
+    'lampiran' => $lampiran,
+    'tujuan' => $tujuan,
+    'dari' => $dari,
+    'content' => $content
     );
-    $this->db->insert('user', $data);
-    redirect('Dashboard/user');
+    $this->db->insert('surat_masuk', $data);
+    redirect('Dashboard/surat_masuk');
+  }
+
+  function update_surat_masuk(){
+    $no_surat = $this->input->post('no_surat');
+    $tgl_masuk = $this->input->post('tanggal_masuk');
+    $tgl_keluar = $this->input->post('tanggal_keluar');
+    $perihal = $this->input->post('perihal');
+    $lampiran = $this->input->post('lampiran');
+    $tujuan = $this->input->post('tujuan');
+    $dari = $this->input->post('dari');
+    $content = $this->input->post('content');
+    
+    $data= array(
+    'no_surat' => $no_surat,
+    'tanggal_masuk' => $tgl_masuk,
+    'tanggal_keluar' => $tgl_keluar,
+    'perihal' => $perihal,
+    'lampiran' => $lampiran,
+    'tujuan' => $tujuan,
+    'dari' => $dari,
+    'content' => $content
+    );
+    $this->db->where('no_surat',$no_surat);
+    $this->db->update('surat_masuk', $data);
+    redirect('Dashboard/surat_masuk');
   }
  
   function update(){ //function update data
